@@ -5,7 +5,7 @@ async function sendMessage() {
 
     if (!text) return;
 
-    // Menyimpan pesan pengguna dalam chat history
+    // Tambahkan pesan user dengan profil
     const userMessageContainer = document.createElement("div");
     userMessageContainer.className = "message-container user-container";
     userMessageContainer.innerHTML = `
@@ -13,11 +13,6 @@ async function sendMessage() {
         <img src="https://i.ibb.co/Z2XkjgQ/1734232863896.jpg" class="profile-img" alt="User">
     `;
     chatBox.appendChild(userMessageContainer);
-
-    // Update history chat di localStorage
-    let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-    chatHistory.push({ sender: 'user', message: text });
-    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
 
     userInput.value = "";
 
@@ -56,11 +51,6 @@ async function sendMessage() {
             <div class="message ai">${data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿"}</div>
         `;
         chatBox.appendChild(aiMessageContainer);
-
-        // Update history chat dengan pesan AI
-        chatHistory.push({ sender: 'ai', message: data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿" });
-        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-
     } catch (error) {
         chatBox.removeChild(loadingMessage);
         const errorMessage = document.createElement("div");
@@ -74,21 +64,3 @@ async function sendMessage() {
 
     chatBox.scrollTop = chatBox.scrollHeight;
 }
-
-// Memuat chat history saat halaman dimuat
-window.onload = () => {
-    const chatBox = document.getElementById("chat-box");
-    const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-    
-    chatHistory.forEach(entry => {
-        const messageContainer = document.createElement("div");
-        messageContainer.className = `message-container ${entry.sender}-container`;
-        messageContainer.innerHTML = `
-            <div class="message ${entry.sender}">${entry.message}</div>
-            <img src="${entry.sender === 'user' ? 'https://i.ibb.co/Z2XkjgQ/1734232863896.jpg' : 'https://i.ibb.co/41xKxg4/pp.webp'}" class="profile-img" alt="${entry.sender}">
-        `;
-        chatBox.appendChild(messageContainer);
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-};
