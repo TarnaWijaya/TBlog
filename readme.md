@@ -6,12 +6,13 @@ Saya bisa membalas chat anda         :✅
 
 Saya bisa generate code              :❎
  
-Saya bisa membuat gambar 	         :❎
+Saya bisa membuat gambar	           :❎
 
-Saya akurat dalam konteks	         :❎
+Saya akurat dalam konteks	            :❎
 
 # Info:
 Saya ingin mengajak teman siapapun itu, kalo mau chat wa saya 
 
 WhatsApp: 085135530429
+
 Chat Telegram: TarnaWijaya
