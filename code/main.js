@@ -43,7 +43,9 @@ async function sendMessage() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                contents: history.map(msg => ({ parts: [{ text: msg.content }] }))
+                contents: history
+                    .filter(msg => msg.content && msg.content.trim() !== "") // Hanya pesan valid
+                    .map(msg => ({ parts: [{ text: msg.content }] }))
             })
         });
 
@@ -81,21 +83,4 @@ async function sendMessage() {
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-// Fungsi untuk menyimpan pesan ke history di localStorage
-function saveToHistory(message) {
-    const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
-    history.push(message);
-    localStorage.setItem("chatHistory", JSON.stringify(history));
-}
-
-// Fungsi untuk mendapatkan history chat dari localStorage
-function getHistory() {
-    return JSON.parse(localStorage.getItem("chatHistory")) || [];
-}
-
-// Fungsi untuk menghapus history chat (jika diperlukan)
-function clearHistory() {
-    localStorage.removeItem("chatHistory");
 }
