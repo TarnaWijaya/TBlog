@@ -36,7 +36,7 @@ async function sendMessage() {
         }
 
         // Fetch data dari Gemini API
-        const apiKey = "YOUR_API_KEY"; // Ganti dengan API key yang valid
+        const apiKey = "AIzaSyDXhTqI0YDY4H7YAZYiooDR5Jjl4r2XNHc"; // Ganti dengan API key yang valid
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
             method: "POST",
             headers: {
