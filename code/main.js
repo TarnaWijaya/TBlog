@@ -1,4 +1,4 @@
-// Cek apakah pengguna sudah memiliki nama yang tersimpan di localStorage
+// main.js
 let userName = localStorage.getItem('userName');
 if (!userName) {
     userName = prompt("Masukkan nama Anda:");
