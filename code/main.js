@@ -29,11 +29,14 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        // Ambil history chat dari localStorage
-        const history = getHistory();
+        // Ambil history chat dari localStorage dan batasi jumlahnya
+        let history = getHistory();
+        if (history.length > 10) {
+            history = history.slice(-10); // Hanya kirim 10 pesan terakhir
+        }
 
         // Fetch data dari Gemini API
-        const apiKey = "AIzaSyDXhTqI0YDY4H7YAZYiooDR5Jjl4r2XNHc";
+        const apiKey = "YOUR_API_KEY"; // Ganti dengan API key yang valid
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
             method: "POST",
             headers: {
@@ -45,6 +48,12 @@ async function sendMessage() {
         });
 
         const data = await response.json();
+
+        // Periksa apakah respons dari API valid
+        if (!response.ok) {
+            throw new Error(data.error?.message || "Terjadi kesalahan pada API");
+        }
+
         const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿";
 
         chatBox.removeChild(loadingMessage);
@@ -66,7 +75,7 @@ async function sendMessage() {
         errorMessage.className = "message-container ai-container";
         errorMessage.innerHTML = `
             <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
-            <div class="message ai">Error: API gak bisa diakses.</div>
+            <div class="message ai">Error: ${error.message}</div>
         `;
         chatBox.appendChild(errorMessage);
     }
