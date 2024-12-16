@@ -10,6 +10,8 @@ Saya bisa membuat gambar       :❎
 
 Saya akurat dalam konteks      :❎
 
+watermark                      :✅
+
 # Info:
 Saya ingin mengajak teman siapapun itu, kalo mau chat wa saya 
 
