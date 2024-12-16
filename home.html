@@ -222,7 +222,8 @@
 
             try {
                 // Fetch data dari API
-                const response = await fetch(`https://apisanz.my.id/ai/chatgpt?text=${encodeURIComponent(text)}`);
+                const response = await
+                fetch(`https://apisanz.my.id/ai/chatgpt?text=${encodeURIComponent(text)}`);
                 const data = await response.json();
 
                 chatBox.removeChild(loadingMessage);
