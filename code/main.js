@@ -1,20 +1,28 @@
-// Fungsi untuk menyimpan riwayat chat di localStorage
-function saveChatHistory() {
+// Muat history chat saat halaman di-refresh
+document.addEventListener("DOMContentLoaded", () => {
     const chatBox = document.getElementById("chat-box");
-    localStorage.setItem("chatHistory", chatBox.innerHTML);
+    const chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+
+    chatHistory.forEach(({ sender, message }) => {
+        const messageContainer = document.createElement("div");
+        messageContainer.className = `message-container ${sender}-container`;
+        messageContainer.innerHTML = `
+            <img src="${sender === 'user' ? 'https://i.ibb.co/Z2XkjgQ/1734232863896.jpg' : 'https://i.ibb.co/41xKxg4/pp.webp'}" class="profile-img" alt="${sender}">
+            <div class="message ${sender}">${message}</div>
+        `;
+        chatBox.appendChild(messageContainer);
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+// Simpan pesan ke localStorage
+function saveToHistory(sender, message) {
+    const chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+    chatHistory.push({ sender, message });
+    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
 }
 
-// Fungsi untuk memuat riwayat chat dari localStorage
-function loadChatHistory() {
-    const chatBox = document.getElementById("chat-box");
-    const savedHistory = localStorage.getItem("chatHistory");
-    if (savedHistory) {
-        chatBox.innerHTML = savedHistory;
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-}
-
-// Fungsi utama untuk mengirim pesan
 async function sendMessage() {
     const chatBox = document.getElementById("chat-box");
     const userInput = document.getElementById("user-input");
@@ -30,9 +38,9 @@ async function sendMessage() {
         <img src="https://i.ibb.co/Z2XkjgQ/1734232863896.jpg" class="profile-img" alt="User">
     `;
     chatBox.appendChild(userMessageContainer);
+    saveToHistory("user", text);
 
     userInput.value = "";
-    saveChatHistory(); // Simpan riwayat setelah menambah pesan user
 
     // Tambahkan loading indicator
     const loadingMessage = document.createElement("div");
@@ -46,7 +54,7 @@ async function sendMessage() {
 
     try {
         // Fetch data dari Gemini API
-        const apiKey = "AIzaSyDXhTqI0YDY4H7YAZYiooDR5Jjl4r2XNHc";
+        const apiKey = "YOUR_API_KEY";
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
             method: "POST",
             headers: {
@@ -61,16 +69,18 @@ async function sendMessage() {
 
         chatBox.removeChild(loadingMessage);
 
+        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿";
+
         // Tampilkan pesan AI dengan profil
         const aiMessageContainer = document.createElement("div");
         aiMessageContainer.className = "message-container ai-container";
         aiMessageContainer.innerHTML = `
             <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
-            <div class="message ai">${data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿"}</div>
+            <div class="message ai">${aiResponse}</div>
         `;
         chatBox.appendChild(aiMessageContainer);
+        saveToHistory("ai", aiResponse);
 
-        saveChatHistory(); // Simpan riwayat setelah menambah pesan AI
     } catch (error) {
         chatBox.removeChild(loadingMessage);
         const errorMessage = document.createElement("div");
@@ -80,12 +90,8 @@ async function sendMessage() {
             <div class="message ai">Error: API gak bisa diakses.</div>
         `;
         chatBox.appendChild(errorMessage);
-
-        saveChatHistory(); // Simpan riwayat meski terjadi error
+        saveToHistory("ai", "Error: API gak bisa diakses.");
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
 }
-
-// Muat riwayat chat saat halaman dimuat
-window.onload = loadChatHistory;
