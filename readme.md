@@ -8,11 +8,12 @@ Saya bisa generate code        :❎
  
 Saya bisa membuat gambar       :❎
 
-Saya akurat dalam konteks      :❎
+Saya akurat dalam konteks      :✅
 
 watermark                      :✅
 
-# Info:
+Menggunakan API	               : Gemini/Google
+## Info:
 Saya ingin mengajak teman siapapun itu, kalo mau chat wa saya 
 
 WhatsApp: 085135530429
