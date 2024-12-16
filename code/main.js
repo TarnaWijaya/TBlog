@@ -54,7 +54,7 @@ async function sendMessage() {
 
     try {
         // Fetch data dari Gemini API
-        const apiKey = "YOUR_API_KEY";
+        const apiKey = "AIzaSyDXhTqI0YDY4H7YAZYiooDR5Jjl4r2XNHc";
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
             method: "POST",
             headers: {
