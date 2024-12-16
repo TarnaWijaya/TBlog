@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="icon" href="assets/pp.png" type="image/png">
+  <title>Loading..</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000; /* Latar belakang hitam */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .spinner {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+        /* Gaya untuk floater */
+        #floater {
+            position: fixed;
+            bottom: 20px; /* Letakkan di bawah */
+            left: 50%;   /* Posisi tengah horizontal */
+            transform: translateX(-50%); /* Menggeser elemen untuk benar-benar di tengah */
+            background-color: rgba(0, 0, 0, 0.7); /* Warna latar belakang transparan */
+            color: white; /* Warna teks putih */
+            padding: 30px 30px;
+            font-size: 13px;
+            border-radius: 16px;
+            z-index: 9999; /* Supaya floater di atas elemen lain */
+        }
+  </style>
+</head>
+<body>
+
+  <div class="loading-screen">
+    <img src="assets/pp.png" alt="Loading Image">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    setTimeout(function() {
+      window.location.href = '../home.html'; // Ganti dengan URL halaman tujuan
+    }, 9000);
+  </script>
+    <div id="floater">Developer: TarzAI | Layanan API: SanzMD</div>
+</body>
+</html>

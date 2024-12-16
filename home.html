@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarzAI</title>
+    <link rel="icon" href="assets/pp.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            color: #1e293b;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #0f172a;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header .buttons a {
+            padding: 8px 12px;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            background-color: #e2e8f0;
+            scroll-behavior: smooth;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 20px;
+            max-width: 70%;
+            word-wrap: break-word;
+            font-size: 15px;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #3b82f6;
+            color: #fff;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: #fff;
+            color: #1e293b;
+        }
+
+        .profile-img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        .user-container {
+            flex-direction: row-reverse;
+        }
+
+        .user-container .profile-img {
+            margin-left: 10px;
+        }
+
+        .ai-container .profile-img {
+            margin-right: 10px;
+        }
+
+        .input-container {
+            background-color: #0f172a;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .input-container button {
+            padding: 12px;
+            border: none;
+            background-color: #3b82f6;
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .encryption-info {
+            background-color: #9c9393;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .encryption-info i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.ibb.co/41xKxg4/pp.webp" alt="AI Logo">
+            TarzAI
+        </div>
+        <div class="buttons">
+            <a href="https://www.example1.com" target="_blank">View Source</a>
+            <a href="https://www.example2.com" target="_blank">Halaman 2</a>
+        </div>
+    </div>
+
+    <div class="encryption-info">
+        <i class="fas fa-lock"></i>
+        <span>
+            Pesan dan panggilan dienkripsi secara end-to-end. Tidak seorang pun di luar chat ini, termasuk WhatsApp, yang dapat membaca atau mendengarkannya. Ketuk untuk info selengkapnya.
+        </span>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Ketik pesan...">
+        <button onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const chatBox = document.getElementById("chat-box");
+            const userInput = document.getElementById("user-input");
+            const text = userInput.value.trim();
+
+            if (!text) return;
+
+            // Tambahkan pesan user dengan profil
+            const userMessageContainer = document.createElement("div");
+            userMessageContainer.className = "message-container user-container";
+            userMessageContainer.innerHTML = `
+                <div class="message user">${text}</div>
+                <img src="https://i.ibb.co.com/Z2XkjgQ/1734232863896.jpg" class="profile-img" alt="User">
+            `;
+            chatBox.appendChild(userMessageContainer);
+
+            userInput.value = "";
+
+            // Tambahkan loading indicator
+            const loadingMessage = document.createElement("div");
+            loadingMessage.className = "message-container ai-container";
+            loadingMessage.innerHTML = `
+                <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
+                <div class="message ai">AI sedang mengetik...</div>
+            `;
+            chatBox.appendChild(loadingMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                // Fetch data dari API
+                const response = await fetch(`https://apisanz.my.id/ai/chatgpt?text=${encodeURIComponent(text)}`);
+                const data = await response.json();
+
+                chatBox.removeChild(loadingMessage);
+
+                // Tampilkan pesan AI dengan profil
+                const aiMessageContainer = document.createElement("div");
+                aiMessageContainer.className = "message-container ai-container";
+                aiMessageContainer.innerHTML = `
+                    <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
+                    <div class="message ai">${data.data || "AInya Error 🗿"}</div>
+                `;
+                chatBox.appendChild(aiMessageContainer);
+            } catch (error) {
+                chatBox.removeChild(loadingMessage);
+                const errorMessage = document.createElement("div");
+                errorMessage.className = "message-container ai-container";
+                errorMessage.innerHTML = `
+                    <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
+                    <div class="message ai">Error: API gak bisa diakses.</div>
+                `;
+                chatBox.appendChild(errorMessage);
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>
