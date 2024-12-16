@@ -1,4 +1,12 @@
-// main.js
+// Cek apakah pengguna sudah memiliki nama yang tersimpan di localStorage
+let userName = localStorage.getItem('userName');
+if (!userName) {
+    userName = prompt("Masukkan nama Anda:");
+    localStorage.setItem('userName', userName);
+}
+
+let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || []; // Ambil riwayat chat jika ada
+
 async function sendMessage() {
     const chatBox = document.getElementById("chat-box");
     const userInput = document.getElementById("user-input");
@@ -6,12 +14,16 @@ async function sendMessage() {
 
     if (!text) return;
 
-    // Tambahkan pesan user dengan profil
+    // Simpan pesan pengguna ke chatHistory
+    chatHistory.push({ sender: "user", text: text });
+
+    // Tambahkan pesan pengguna dengan profil
     const userMessageContainer = document.createElement("div");
     userMessageContainer.className = "message-container user-container";
     userMessageContainer.innerHTML = `
         <div class="message user">${text}</div>
         <img src="https://i.ibb.co/Z2XkjgQ/1734232863896.jpg" class="profile-img" alt="User">
+        <button class="copy-btn" onclick="copyMessage('${text}')">Copy</button>
     `;
     chatBox.appendChild(userMessageContainer);
 
@@ -47,9 +59,13 @@ async function sendMessage() {
         // Tampilkan pesan AI dengan profil
         const aiMessageContainer = document.createElement("div");
         aiMessageContainer.className = "message-container ai-container";
+        const aiMessageText = data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿";
+        chatHistory.push({ sender: "ai", text: aiMessageText });
+
         aiMessageContainer.innerHTML = `
             <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
-            <div class="message ai">${data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿"}</div>
+            <div class="message ai">${aiMessageText}</div>
+            <button class="copy-btn" onclick="copyMessage('${aiMessageText}')">Copy</button>
         `;
         chatBox.appendChild(aiMessageContainer);
     } catch (error) {
@@ -64,4 +80,36 @@ async function sendMessage() {
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Simpan riwayat percakapan ke localStorage
+    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
 }
+
+// Fungsi untuk menyalin pesan ke clipboard
+function copyMessage(text) {
+    const tempInput = document.createElement("input");
+    document.body.appendChild(tempInput);
+    tempInput.value = text;
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    alert("Pesan disalin ke clipboard!");
+}
+
+// Saat memuat halaman, tampilkan riwayat percakapan sebelumnya
+function loadChatHistory() {
+    const chatBox = document.getElementById("chat-box");
+    chatHistory.forEach((message) => {
+        const messageContainer = document.createElement("div");
+        messageContainer.className = message.sender === "user" ? "message-container user-container" : "message-container ai-container";
+        messageContainer.innerHTML = `
+            <img src="${message.sender === "user" ? "https://i.ibb.co/Z2XkjgQ/1734232863896.jpg" : "https://i.ibb.co/41xKxg4/pp.webp"}" class="profile-img" alt="${message.sender}">
+            <div class="message ${message.sender}">${message.text}</div>
+            <button class="copy-btn" onclick="copyMessage('${message.text}')">Copy</button>
+        `;
+        chatBox.appendChild(messageContainer);
+    });
+}
+
+loadChatHistory();  // Panggil fungsi untuk memuat riwayat chat ketika halaman
+dimuat
