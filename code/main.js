@@ -32,7 +32,7 @@ async function sendMessage() {
         // Cek sapaan awal
         const greetings = ["halo", "hi", "hai", "hello"];
         if (greetings.includes(text.toLowerCase())) {
-            reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
+            reply = "Hai, apa kabar? Saya adalah asisten TarzAI-TarnaWijaya siap membantu!";
         } else {
             // Fetch data dari Gemini API hanya jika bukan sapaan awal
             const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
