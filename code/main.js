@@ -33,9 +33,8 @@ async function sendMessage() {
         const greetings = ["halo", "hi", "hai", "hello"];
         if (greetings.includes(text.toLowerCase())) {
             reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
-        } else if (text.toLowerCase().includes("tarna") || text.toLowerCase().includes("tarna wijaya")) {
-            // Respons khusus ketika menyebut "Tarna" atau "Tarna Wijaya"
-            reply = "Hai Tarna Wijaya! Senang bertemu denganmu. Bagaimana kabarmu hari ini?";
+        } else if (text.toLowerCase().includes("developer kau siapa") || text.toLowerCase().includes("tarna wijaya")) {
+            reply = "developer saya adalah tarna wijaya alias pengembangnya";
         } else {
             // Fetch data dari Gemini API hanya jika bukan sapaan awal atau nama "Tarna"
             const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
