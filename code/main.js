@@ -27,20 +27,30 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        // Fetch data dari Gemini API
-        const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: text }] }]
-            })
-        });
+        let reply;
 
-        const data = await response.json();
+        // Cek sapaan awal
+        const greetings = ["halo", "hi", "hai", "hello"];
+        if (greetings.includes(text.toLowerCase())) {
+            reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
+        } else {
+            // Fetch data dari Gemini API hanya jika bukan sapaan awal
+            const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: text }] }]
+                })
+            });
 
+            const data = await response.json();
+            reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿";
+        }
+
+        // Hapus loading indicator setelah mendapatkan respons
         chatBox.removeChild(loadingMessage);
 
         // Tampilkan pesan AI dengan profil
@@ -48,10 +58,11 @@ async function sendMessage() {
         aiMessageContainer.className = "message-container ai-container";
         aiMessageContainer.innerHTML = `
             <img src="https://i.ibb.co/41xKxg4/pp.webp" class="profile-img" alt="AI">
-            <div class="message ai">${data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿"}</div>
+            <div class="message ai">${reply}</div>
         `;
         chatBox.appendChild(aiMessageContainer);
     } catch (error) {
+        // Hapus loading indicator jika terjadi kesalahan
         chatBox.removeChild(loadingMessage);
         const errorMessage = document.createElement("div");
         errorMessage.className = "message-container ai-container";
