@@ -5,7 +5,6 @@ async function sendMessage() {
 
     if (!text) return;
 
-    // Tambahkan pesan user dengan profil
     const userMessageContainer = document.createElement("div");
     userMessageContainer.className = "message-container user-container";
     userMessageContainer.innerHTML = `
@@ -16,7 +15,6 @@ async function sendMessage() {
 
     userInput.value = "";
 
-    // Tambahkan loading indicator
     const loadingMessage = document.createElement("div");
     loadingMessage.className = "message-container ai-container";
     loadingMessage.innerHTML = `
@@ -29,14 +27,13 @@ async function sendMessage() {
     try {
         let reply;
 
-        // Cek sapaan awal
         const greetings = ["halo", "hi", "hai", "hello"];
         if (greetings.includes(text.toLowerCase())) {
             reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
-        } else if (text.toLowerCase().includes("developer kau siapa") || text.toLowerCase().includes("tarna wijaya")) {
-            reply = "developer saya adalah tarna wijaya alias pengembangnya";
+        } else if (text.toLowerCase().includes("developer kau siapa") ||
+        text.toLowerCase().includes("developermu siapa")) {
+            reply = "Hai Tarna Wijaya! Senang bertemu denganmu. Bagaimana kabarmu hari ini?";
         } else {
-            // Fetch data dari Gemini API hanya jika bukan sapaan awal atau nama "Tarna"
             const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
                 method: "POST",
@@ -52,10 +49,8 @@ async function sendMessage() {
             reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "AInya Error 🗿";
         }
 
-        // Hapus loading indicator setelah mendapatkan respons
         chatBox.removeChild(loadingMessage);
 
-        // Tampilkan pesan AI dengan profil
         const aiMessageContainer = document.createElement("div");
         aiMessageContainer.className = "message-container ai-container";
         aiMessageContainer.innerHTML = `
@@ -64,7 +59,6 @@ async function sendMessage() {
         `;
         chatBox.appendChild(aiMessageContainer);
     } catch (error) {
-        // Hapus loading indicator jika terjadi kesalahan
         chatBox.removeChild(loadingMessage);
         const errorMessage = document.createElement("div");
         errorMessage.className = "message-container ai-container";
