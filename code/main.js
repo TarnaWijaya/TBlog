@@ -29,7 +29,7 @@ async function sendMessage() {
 
         const greetings = ["halo", "hi", "hai", "hello"];
         if (greetings.includes(text.toLowerCase())) {
-            reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
+            reply = "Hai, apa kabar? Saya adalah asisten TarzAI-TarnaWijaya siap membantu!";
         } else if (text.toLowerCase().includes("developer kau siapa") ||
         text.toLowerCase().includes("developermu siapa")) {
             reply = "ia adalah TarnaWijaya alias pengembangnya";
