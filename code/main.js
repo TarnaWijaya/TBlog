@@ -32,7 +32,7 @@ async function sendMessage() {
             reply = "Hai, apa kabar? Saya adalah asisten AI siap membantu!";
         } else if (text.toLowerCase().includes("developer kau siapa") ||
         text.toLowerCase().includes("developermu siapa")) {
-            reply = "Hai Tarna Wijaya! Senang bertemu denganmu. Bagaimana kabarmu hari ini?";
+            reply = "ia adalah TarnaWijaya alias pengembangnya";
         } else {
             const apiKey = "AIzaSyC0Cjd5U_kIM9tvqxfjjvQ_MlhabjtxA30";
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
