@@ -32,6 +32,7 @@ async function sendMessage() {
             reply = "Hai, apa kabar? Saya adalah asisten TarzAI-TarnaWijaya siap membantu!";} else if (
     text.toLowerCase().includes("developer kau siapa") ||
     text.toLowerCase().includes("developermu siapa") ||
+    text.toLowerCase().includes("siapa developermu") ||
     text.toLowerCase().includes("siapa yang buat kamu") ||
     text.toLowerCase().includes("siapa pengembangmu") ||
     text.toLowerCase().includes("kamu dibuat oleh siapa") ||
