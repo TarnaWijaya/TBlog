@@ -20,6 +20,6 @@ Menggunakan API	               : Gemini/Google
 ## Info:
 Saya ingin mengajak teman siapapun itu, kalo mau chat wa saya 
 
-WhatsApp: [Chat](https://wa.me/085135530429)
+WhatsApp: [Chat](https://wa.me/message/UYPM2Q2UEML2C1)
 
-Chat Telegram: TarnaWijaya
+Telegram: [Chat](https://t.me/TarnaWijaya)
