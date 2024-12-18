@@ -2,15 +2,15 @@
 "TarzAI" ini belum canggih mungkin saya ada waktu untuk membuat API sendiri mungkin berapa tahun lagi, ini sangat sulit bagi saya sendiri. yah semoga saya bisa.
 
 ## Fitur:
-[x] Saya bisa membalas chat anda
+[ x ] Saya bisa membalas chat anda
 
-[] Saya bisa generate code
+[ ] Saya bisa generate code
  
-[] Saya bisa membuat gambar
+[ ] Saya bisa membuat gambar
 
-[x] Saya akurat dalam konteks
+[ x ] Saya akurat dalam konteks
 
-[x] watermark
+[ x ] watermark
 
 Menggunakan API	               : Gemini/Google
 ## Info:
