@@ -27,7 +27,7 @@ async function sendMessage() {
     try {
         let reply;
 
-        const greetings = ["halo", "hi", "hai", "hello"];
+        const greetings = ["halo", "hay", "p", "hi", "hai", "hello"];
         if (greetings.includes(text.toLowerCase())) {
             reply = "Hai, apa kabar? Saya adalah asisten TarzAI-TarnaWijaya siap membantu!";} else if (
     text.toLowerCase().includes("developer kau siapa") ||
